@@ -25,7 +25,7 @@ export default function App() {
           <Text style={styles.but2txt}>PERMISSION SETTINGS</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button3}>
-          <Text style={styles.but3txt}>FONT AND TEXT</Text>
+          <Text style={styles.but3txt}>FONT AND TEXTtttt</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.icon}>
