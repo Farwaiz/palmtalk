@@ -30,7 +30,7 @@ export default function App() {
       </View>
       <View style={styles.icon}>
         <Image
-          source={require("./assets/ptLogo.png")}
+          source={require("./assets/palmtalk.png")}
           style={{ width: 120, height: 100 }}
         />
       </View>
