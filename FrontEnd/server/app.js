@@ -7,10 +7,10 @@ require("./User");
 app.use(bodyParser.json());
 
 const User = mongoose.model("user");
-
+//pw=9LyQQKlU5RVjPdXc
 //password =5hqiaFjBsOSpjhyc
 const mongoUri =
-  "mongodb+srv://Ravihara:5hqiaFjBsOSpjhyc@cluster0.iaxel6r.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://RaviharaDS:9LyQQKlU5RVjPdXc@cluster0.ogzdvtk.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose.set("strictQuery", false);
 mongoose.connect(mongoUri, {
@@ -30,8 +30,17 @@ app.get("/", (req, res) => {
   res.send("welcome to node js");
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body);
+app.post("/send-data", (req, res) => {
+  const user = new User({
+    email: req.body.email,
+    username: req.body.namem,
+    password: req.body.password,
+    repassword: req.body.repassword,
+  });
+  user.save().then((data) => {
+    console.log(data);
+  });
+
   res.send("posted");
 });
 
