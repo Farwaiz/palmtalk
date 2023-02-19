@@ -91,7 +91,7 @@ export default function App() {
           />
           <TextInput
             style={{ flex: 1 }}
-            placeholder="Re-Enter Your Password e"
+            placeholder="Re-Enter Your Password Here"
             underlineColorAndroid="transparent"
           />
         </View>
