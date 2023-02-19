@@ -11,7 +11,7 @@ const mongoUri =
   "mongodb+srv://Ravihara:5hqiaFjBsOSpjhyc@cluster0.iaxel6r.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose.connect(mongoUri, {
-  use,,,
+  use,
 });
 app.get("/", (req, res) => {
   res.send("welcome to node js");
