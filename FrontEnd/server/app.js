@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("./User");
 
+app.use(bodyParser.json());
+
 const User = mongoose.model("user");
 
 //password =5hqiaFjBsOSpjhyc
@@ -16,8 +18,8 @@ mongoose.connect(mongoUri, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection.on("conneced huttto", () => {
-  console.log("connected to mongo db pako");
+mongoose.connection.on("connected yeah", () => {
+  console.log("connected to mongo db ");
 });
 
 mongoose.connection.on("error", (err) => {
@@ -28,6 +30,11 @@ app.get("/", (req, res) => {
   res.send("welcome to node js");
 });
 
+app.post("/", (req, res) => {
+  console.log(req.body);
+  res.send("posted");
+});
+
 app.listen(3000, () => {
-  console.log("server runniing");
+  console.log("server running");
 });
