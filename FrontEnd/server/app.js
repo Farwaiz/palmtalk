@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+//password =5hqiaFjBsOSpjhyc
 app.get("/", (req, res) => {
   res.send("welcome to node js");
 });
