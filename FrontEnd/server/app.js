@@ -33,15 +33,19 @@ app.get("/", (req, res) => {
 app.post("/send-data", (req, res) => {
   const user = new User({
     email: req.body.email,
-    username: req.body.namem,
+    username: req.body.username,
     password: req.body.password,
     repassword: req.body.repassword,
   });
-  user.save().then((data) => {
-    console.log(data);
-  });
-
-  res.send("posted");
+  user
+    .save()
+    .then((data) => {
+      console.log(data);
+      res.send("success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.listen(3000, () => {
