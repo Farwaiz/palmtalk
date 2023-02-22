@@ -46,10 +46,7 @@ const Display = () => {
   return (
     <>
       <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../AwesomeProject/assets/PalmTalk.png")}
-        />
+        <Image style={styles.logo} source={require("./assets/palmtalk.png")} />
       </View>
 
       <TouchableOpacity>
