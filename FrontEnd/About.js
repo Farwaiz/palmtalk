@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
-export default function App() {
+export default function About() {
   return (
     <SafeAreaView>
       <View style={styles.abTopic}>
@@ -30,7 +30,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#ffbf00",
+    color: "orange",
     fontWeight: "bold",
     fontSize: 40,
     marginTop: 170,

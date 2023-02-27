@@ -1,16 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
-  SafeAreaView,
+  Button,
+  Image,
   StyleSheet,
   Text,
-  Touchable,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Button, Image, ImageBackground } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function App() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView>
       <View style={styles.topic}>
@@ -18,9 +20,13 @@ export default function App() {
         <Text style={styles.heading}> SETTINGS</Text>
       </View>
       <View style={styles.buttonArea}>
-        <TouchableOpacity style={styles.button1}>
+        <TouchableOpacity
+          style={styles.button1}
+          onPress={() => navigation.navigate("User")}
+        >
           <Text style={styles.but1txt}>PROFILE SETTINGS</Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.button2}>
           <Text style={styles.but2txt}>PERMISSION SETTINGS</Text>
         </TouchableOpacity>
@@ -37,10 +43,9 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   heading: {
-    color: "#ffbf00",
+    color: "orange",
     fontWeight: "bold",
     fontSize: 40,
     marginTop: 170,
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
   },
   button1: {
     padding: 15,
-    backgroundColor: "#ffbf00",
+    backgroundColor: "orange",
     borderRadius: 7,
     height: 55,
   },
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
   },
   button2: {
     padding: 15,
-    backgroundColor: "#ffbf00",
+    backgroundColor: "orange",
     borderRadius: 7,
     height: 55,
     marginTop: 25,
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
   },
   button3: {
     padding: 15,
-    backgroundColor: "#ffbf00",
+    backgroundColor: "orange",
     borderRadius: 7,
     height: 55,
     marginTop: 25,
