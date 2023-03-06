@@ -1,4 +1,6 @@
 import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -7,10 +9,84 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
-export default function App() {
+const CreateUser = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+
+  const _submitData = async () => {
+    fetch("http://10.0.2.2:3000/send-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        username: username,
+        password: password,
+        repassword: repassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert(`${data.name} is valid successfully!!`);
+        navigate("Menu");
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+  const handleEmailChange = (value) => {
+    setEmail(value);
+  };
+  const handleUsernameChange = (value) => {
+    setUserName(value);
+  };
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+  };
+  const handleRepasswordChange = (value) => {
+    setRepassword(value);
+  };
+  const handleSubmit = () => {
+    if (!email) {
+      alert("Please enter your email ");
+      return;
+    }
+    if (!username) {
+      alert("Please enter your Username");
+      return;
+    }
+    if (!password) {
+      alert("Please enter your Password");
+      return;
+    }
+    if (!repassword) {
+      alert("Please re enter your Password");
+      return;
+    }
+    if (password !== repassword) {
+      alert("Passwords do not match.Please try again");
+      setRepassword("");
+    }
+    if (password == repassword) {
+      //alert("Passwords do not match.Please try again");
+      // Reset the input fields
+      setEmail("");
+      setUserName("");
+      setPassword("");
+      setRepassword("");
+      navigation.navigate("Menu");
+      // Submit the form data
+      _submitData();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -52,8 +128,10 @@ export default function App() {
           />
           <TextInput
             style={{ flex: 1 }}
+            value={email}
             placeholder="Enter Your Email Here"
             underlineColorAndroid="transparent"
+            onChangeText={handleEmailChange}
           />
         </View>
 
@@ -68,8 +146,10 @@ export default function App() {
           />
           <TextInput
             style={{ flex: 1 }}
+            value={username}
             placeholder="Enter Your Username Here"
             underlineColorAndroid="transparent"
+            onChangeText={handleUsernameChange}
           />
         </View>
 
@@ -84,8 +164,10 @@ export default function App() {
           />
           <TextInput
             style={{ flex: 1 }}
+            value={password}
             placeholder="Enter Your Password Here"
             underlineColorAndroid="transparent"
+            onChangeText={handlePasswordChange}
           />
         </View>
 
@@ -100,15 +182,14 @@ export default function App() {
           />
           <TextInput
             style={{ flex: 1 }}
+            value={repassword}
             placeholder="Re-Enter Your Password Here"
             underlineColorAndroid="transparent"
+            onChangeText={handleRepasswordChange}
           />
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.signbt}
-        onPress={() => navigation.navigate("Menu")}
-      >
+      <TouchableOpacity style={styles.signbt} onPress={handleSubmit}>
         <Text style={styles.bttxt}>SIGN UP</Text>
         <View style={styles.logicon}>
           <Image source={require("./assets/log-in.png")} />
@@ -128,7 +209,7 @@ export default function App() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -201,3 +282,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default CreateUser;
