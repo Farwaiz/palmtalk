@@ -22,7 +22,30 @@ export default function App() {
       alert("Please enter your email and password");
       return;
     }
-    navigation.navigate("Menu");
+
+    fetch("http://10.0.2.2:3000/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: username,
+        password: password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "SUCCESS") {
+          navigation.navigate("Menu");
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        alert("An error occurred while signing in");
+        console.error(error);
+      });
   };
 
   return (
