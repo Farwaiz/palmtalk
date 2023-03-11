@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
+  Alert,
   Button,
   Image,
   StyleSheet,
@@ -14,7 +15,16 @@ import {
 export default function App() {
   const navigation = useNavigation();
   const [username, setUsername] = useState("");
-  const [text, onChangeText] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignIn = () => {
+    if (!username.trim() || !password.trim()) {
+      alert("Please enter your email and password");
+      return;
+    }
+    navigation.navigate("Menu");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -30,13 +40,13 @@ export default function App() {
         <Text style={styles.subHeading}>Welcome back, you've been missed!</Text>
         <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Username or Email</Text>
+            <Text style={styles.inputLabel}>Email</Text>
             <View style={{ flexDirection: "row" }}>
               <Image source={require("./assets/person.png")} />
               <TextInput
                 style={{ ...styles.input, width: "90%" }}
-                onChangeText={onChangeText}
-                value={text}
+                onChangeText={setUsername}
+                value={username}
               />
             </View>
           </View>
@@ -46,8 +56,8 @@ export default function App() {
               <Image source={require("./assets/lock.png")} />
               <TextInput
                 style={{ ...styles.input, width: "80%" }}
-                onChangeText={setUsername}
-                value={username}
+                onChangeText={setPassword}
+                value={password}
               />
               <Image source={require("./assets/eye.png")} />
             </View>
@@ -63,7 +73,7 @@ export default function App() {
               justifyContent: "center",
               width: "100%",
             }}
-            onPress={() => navigation.navigate("Menu")}
+            onPress={handleSignIn}
           >
             <View
               style={{
