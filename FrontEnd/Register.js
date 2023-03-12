@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from "react-native";
 
 const CreateUser = () => {
@@ -18,6 +19,12 @@ const CreateUser = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const _submitData = async () => {
     fetch("http://10.0.2.2:3000/send-data", {
@@ -58,6 +65,10 @@ const CreateUser = () => {
       alert("Please enter your email ");
       return;
     }
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
     if (!username) {
       alert("Please enter your Username");
       return;
@@ -67,147 +78,162 @@ const CreateUser = () => {
       return;
     }
     if (!repassword) {
-      alert("Please re enter your Password");
+      alert("Please re-enter your Password");
       return;
     }
     if (password !== repassword) {
-      alert("Passwords do not match.Please try again");
+      alert("Passwords do not match. Please try again");
       setRepassword("");
     }
-    if (password == repassword) {
-      //alert("Passwords do not match.Please try again");
-      // Reset the input fields
+    if (password === repassword) {
       setEmail("");
       setUserName("");
       setPassword("");
       setRepassword("");
       navigation.navigate("Menu");
-      // Submit the form data
       _submitData();
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.stretch}
-          source={require("./assets/palmtalk.png")}
-        />
-      </View>
-      <View>
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            paddingLeft: 50,
-            paddingTop: 50,
-          }}
-        >
-          Getting Started
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: "medium",
-            paddingLeft: 50,
-            paddingTop: 5,
-            color: "#171717",
-          }}
-        >
-          Create an account to continue!
-        </Text>
-      </View>
-      <View style={styles.loginInputContainer}>
-        <Text style={{ color: "#8F92A1", fontSize: 12 }}>Email</Text>
-
-        <View style={styles.sectionStyle}>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.logoContainer}>
           <Image
-            source={require("./assets/mail.png")}
-            style={styles.imageStyle}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            value={email}
-            placeholder="Enter Your Email Here"
-            underlineColorAndroid="transparent"
-            onChangeText={handleEmailChange}
+            style={styles.stretch}
+            source={require("./assets/palmtalk.png")}
           />
         </View>
-
-        <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
-          Username
-        </Text>
-
-        <View style={styles.sectionStyle}>
-          <Image
-            source={require("./assets/person.png")}
-            style={styles.imageStyle}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            value={username}
-            placeholder="Enter Your Username Here"
-            underlineColorAndroid="transparent"
-            onChangeText={handleUsernameChange}
-          />
-        </View>
-
-        <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
-          Password
-        </Text>
-
-        <View style={styles.sectionStyle}>
-          <Image
-            source={require("./assets/lock.png")}
-            style={styles.imageStyle}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            value={password}
-            placeholder="Enter Your Password Here"
-            underlineColorAndroid="transparent"
-            onChangeText={handlePasswordChange}
-          />
-        </View>
-
-        <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
-          Confirm Password
-        </Text>
-
-        <View style={styles.sectionStyle}>
-          <Image
-            source={require("./assets/lock.png")}
-            style={styles.imageStyle}
-          />
-          <TextInput
-            style={{ flex: 1 }}
-            value={repassword}
-            placeholder="Re-Enter Your Password Here"
-            underlineColorAndroid="transparent"
-            onChangeText={handleRepasswordChange}
-          />
-        </View>
-      </View>
-      <TouchableOpacity style={styles.signbt} onPress={handleSubmit}>
-        <Text style={styles.bttxt}>SIGN UP</Text>
-        <View style={styles.logicon}>
-          <Image source={require("./assets/log-in.png")} />
-        </View>
-      </TouchableOpacity>
-      <View style={styles.bottomitem}>
-        <Text style={styles.bottomtxt}>
-          Already have an account? &nbsp;
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Login");
+        <View>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "bold",
+              paddingLeft: 50,
+              paddingTop: 50,
             }}
           >
-            <Text style={styles.sgntxt}>Sign in</Text>
-          </TouchableOpacity>
-        </Text>
+            Getting Started
+          </Text>
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: "medium",
+              paddingLeft: 50,
+              paddingTop: 5,
+              color: "#171717",
+            }}
+          >
+            Create an account to continue!
+          </Text>
+        </View>
+        <View style={styles.loginInputContainer}>
+          <Text style={{ color: "#8F92A1", fontSize: 12 }}>Email</Text>
+
+          <View style={styles.sectionStyle}>
+            <Image
+              source={require("./assets/mail.png")}
+              style={styles.imageStyle}
+            />
+            <TextInput
+              style={{ flex: 1 }}
+              value={email}
+              placeholder="Enter Email"
+              underlineColorAndroid="transparent"
+              onChangeText={handleEmailChange}
+            />
+          </View>
+
+          <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
+            Username
+          </Text>
+
+          <View style={styles.sectionStyle}>
+            <Image
+              source={require("./assets/person.png")}
+              style={styles.imageStyle}
+            />
+            <TextInput
+              style={{ flex: 1 }}
+              value={username}
+              placeholder="Enter Username"
+              underlineColorAndroid="transparent"
+              onChangeText={handleUsernameChange}
+            />
+          </View>
+
+          <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
+            Password
+          </Text>
+
+          <View style={styles.sectionStyle}>
+            <Image
+              source={require("./assets/lock.png")}
+              style={styles.imageStyle}
+            />
+            <TextInput
+              style={{ flex: 1 }}
+              value={password}
+              placeholder="Enter Password"
+              secureTextEntry={isSecureEntry}
+              underlineColorAndroid="transparent"
+              onChangeText={handlePasswordChange}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+            >
+              <Image source={require("./assets/eye.png")} />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={{ color: "#8F92A1", fontSize: 12, paddingTop: 20 }}>
+            Confirm Password
+          </Text>
+
+          <View style={styles.sectionStyle}>
+            <Image
+              source={require("./assets/lock.png")}
+              style={styles.imageStyle}
+            />
+            <TextInput
+              style={{ flex: 1 }}
+              value={repassword}
+              secureTextEntry={isSecureEntry}
+              placeholder="Re-Enter Password"
+              underlineColorAndroid="transparent"
+              onChangeText={handleRepasswordChange}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                setIsSecureEntry((prev) => !prev);
+              }}
+            >
+              <Image source={require("./assets/eye.png")} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.signbt} onPress={handleSubmit}>
+          <Text style={styles.bttxt}>SIGN UP</Text>
+          <View style={styles.logicon}>
+            <Image source={require("./assets/log-in.png")} />
+          </View>
+        </TouchableOpacity>
+        <View style={styles.bottomitem}>
+          <Text style={styles.bottomtxt}>
+            Already have an account? &nbsp;
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text style={styles.sgntxt}>Sign in</Text>
+            </TouchableOpacity>
+          </Text>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -14,12 +14,23 @@ import {
 
 export default function App() {
   const navigation = useNavigation();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSignIn = () => {
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       alert("Please enter your email and password");
+      return;
+    }
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address");
+      setPassword("");
       return;
     }
 
@@ -30,7 +41,7 @@ export default function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: username,
+        email: email,
         password: password,
       }),
     })
@@ -38,6 +49,8 @@ export default function App() {
       .then((data) => {
         if (data.status === "SUCCESS") {
           navigation.navigate("Menu");
+          setPassword("");
+          setEmail("");
         } else {
           alert(data.message);
         }
@@ -67,9 +80,10 @@ export default function App() {
             <View style={{ flexDirection: "row" }}>
               <Image source={require("./assets/person.png")} />
               <TextInput
+                placeholder="Enter Email"
                 style={{ ...styles.input, width: "90%" }}
-                onChangeText={setUsername}
-                value={username}
+                onChangeText={setEmail}
+                value={email}
               />
             </View>
           </View>
@@ -78,11 +92,19 @@ export default function App() {
             <View style={{ flexDirection: "row" }}>
               <Image source={require("./assets/lock.png")} />
               <TextInput
+                placeholder="Enter Password"
                 style={{ ...styles.input, width: "80%" }}
                 onChangeText={setPassword}
+                secureTextEntry={isSecureEntry}
                 value={password}
               />
-              <Image source={require("./assets/eye.png")} />
+              <TouchableOpacity
+                onPress={() => {
+                  setIsSecureEntry((prev) => !prev);
+                }}
+              >
+                <Image source={require("./assets/eye.png")} />
+              </TouchableOpacity>
             </View>
           </View>
           <TouchableOpacity
@@ -131,6 +153,8 @@ export default function App() {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Register");
+                  setPassword("");
+                  setEmail("");
                 }}
               >
                 <Text style={{ fontWeight: "bold", color: "black" }}>
@@ -192,9 +216,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    paddingVertical: 10,
-    fontSize: 20,
-    fontWeight: "bold",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 13,
   },
   heading: {
     fontSize: 30,
