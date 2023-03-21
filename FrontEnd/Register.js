@@ -14,7 +14,12 @@ import {
 } from "react-native";
 
 const CreateUser = () => {
-  
+    const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const [isSecureEntry, setIsSecureEntry] = useState(true);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
