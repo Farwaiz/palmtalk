@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,53 +10,44 @@ import {
   TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-export default function App() {
+
+export default function ProfileScreen() {
   const navigation = useNavigation();
-  const [name, setname] = useState("");
-  const [email, onChangeText] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    fetch("http://10.0.2.2:3000/profile", { credentials: "include" })
+      .then((response) => response.json())
+      .then((data) => {
+        setName(data.data.username);
+        setEmail(data.data.email);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity>
         <View style={styles.button}>
-          <Text style={styles.buttontext1}>ADD ANOTHER ACCCOUNT</Text>
+          <Text style={styles.buttontext1}>ADD ANOTHER ACCOUNT</Text>
         </View>
       </TouchableOpacity>
-
       <View style={styles.space} />
-
-      <View style={styles.boarder}>
+      <View style={styles.border}>
         <Image
-          style={styles.stretch}
           source={require("./assets/profile.jpg")}
+          style={styles.stretch}
         />
       </View>
-
       <View style={styles.space} />
-
-      <View style={styles.textcontainer}>
-        <View style={styles.name}>
-          <Text style={styles.name}>NAME : </Text>
-          <TextInput
-            style={styles.namefield}
-            onChangeText={setname}
-            value={name}
-            placeholder="Deepika Sharma"
-            keyboardType="text"
-          />
-          <Text style={styles.eml}>EMAIL : </Text>
-          <TextInput
-            style={styles.emlfield}
-            onChangeText={onChangeText}
-            value={email}
-            placeholder="Deepika@gmail.com"
-            keyboardType="text"
-          />
-        </View>
+      <View style={styles.name}>
+        <Text style={styles.username}>Name :{name}</Text>
+        <Text style={styles.email}>Email :{email}</Text>
       </View>
-
       <View style={styles.space} />
-
       <TouchableOpacity>
         <View style={styles.buttons}>
           <Text style={styles.buttontext}>CHANGE PASSWORD</Text>
@@ -128,21 +118,13 @@ const styles = StyleSheet.create({
   space1: {
     height: 30,
   },
-  name: {
+  username: {
     marginLeft: -30,
     fontWeight: "bold",
   },
-  eml: {
+  email: {
     marginLeft: -30,
     paddingTop: 15,
     fontWeight: "bold",
-  },
-  namefield: {
-    marginTop: -25,
-    paddingLeft: 30,
-  },
-  emlfield: {
-    marginTop: -25,
-    paddingLeft: 30,
   },
 });
