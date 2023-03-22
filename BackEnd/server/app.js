@@ -3,7 +3,17 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 require("./User");
+
 const User = mongoose.model("user");
+// Set up session middleware
+const session = require("express-session");
+app.use(
+  session({
+    secret: "my-secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use(bodyParser.json());
 //const pass = "kBIJfGkEpX4vtIwB";
@@ -18,10 +28,12 @@ mongoose.connect(mongoURI, {
 mongoose.connection.on("connected", () => {
   console.log("connected successfully");
 });
+
 mongoose.connection.on("error", (err) => {
   console.log("error occurred");
 });
 
+//register
 app.post("/send-data", (req, res) => {
   const user = new User({
     email: req.body.email,
@@ -38,7 +50,8 @@ app.post("/send-data", (req, res) => {
       console.log(err);
     });
 });
-//login stuff
+
+//login
 app.post("/login", (req, res) => {
   let { email = "", password = "" } = req.body;
   email = email.trim();
@@ -54,6 +67,8 @@ app.post("/login", (req, res) => {
       .then((data) => {
         if (data.length) {
           if (data[0].repassword === password) {
+            // Store email in session
+            req.session.email = email;
             res.json({
               status: "SUCCESS",
               message: "Sign in successfully",
@@ -62,7 +77,7 @@ app.post("/login", (req, res) => {
           } else {
             res.json({
               status: "FAILED",
-              message: "An error occurred while comparing passwords",
+              message: "Invalid Password",
             });
           }
         } else {
@@ -79,6 +94,41 @@ app.post("/login", (req, res) => {
         });
       });
   }
+});
+
+//profile
+app.get("/profile", (req, res) => {
+  const email = req.session.email;
+
+  if (!email) {
+    return res.send("You must be logged in to view this page.");
+  }
+
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        res.json({
+          status: "SUCCESS",
+          message: "Profile retrieved successfully",
+          data: {
+            username: user.username,
+            email: user.email,
+          },
+        });
+      } else {
+        res.json({
+          status: "FAILED",
+          message: "User not found",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: "FAILED",
+        message: "An error occurred while fetching user data",
+      });
+    });
 });
 
 app.get("/", (req, res) => {
