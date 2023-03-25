@@ -52,6 +52,11 @@ export default function Router() {
           name="Login"
           component={Login}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="UpdatePassword"
+          component={UpdatePassword}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
