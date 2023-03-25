@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet,TouchableOpacity } from 'react-native';
-
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function App() {
