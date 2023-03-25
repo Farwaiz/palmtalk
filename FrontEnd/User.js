@@ -51,6 +51,7 @@ export default function ProfileScreen() {
       <TouchableOpacity>
         <View style={styles.buttons}>
           <Text style={styles.buttontext}>CHANGE PASSWORD</Text>
+          onPress={() => navigation.navigate("UpdatePassword")}
         </View>
       </TouchableOpacity>
     </View>
