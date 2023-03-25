@@ -131,6 +131,57 @@ app.get("/profile", (req, res) => {
     });
 });
 
+// update password
+app.post("/update-password", (req, res) => {
+  const email = req.session.email;
+  const { oldPassword, newPassword } = req.body;
+
+  if (!email) {
+    return res.send("You must be logged in to update your password.");
+  }
+
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        if (user.password === oldPassword) {
+          user.password = newPassword;
+          user
+            .save()
+            .then(() => {
+              res.json({
+                status: "SUCCESS",
+                message: "Password updated successfully",
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.json({
+                status: "FAILED",
+                message: "An error occurred while updating password",
+              });
+            });
+        } else {
+          res.json({
+            status: "FAILED",
+            message: "Incorrect old password",
+          });
+        }
+      } else {
+        res.json({
+          status: "FAILED",
+          message: "User not found",
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json({
+        status: "FAILED",
+        message: "An error occurred while fetching user data",
+      });
+    });
+});
+
 app.get("/", (req, res) => {
   res.send("welcome to nodejs");
 });
