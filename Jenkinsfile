@@ -13,13 +13,13 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'echo "Deploying..."'
+                echo 'Deploying...'
             }
         }
     }
     post {
         always {
-            sh 'echo "Pipeline completed."'
+            echo 'Pipeline completed.'
         }
     }
 }
