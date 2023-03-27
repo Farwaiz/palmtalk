@@ -8,30 +8,46 @@ pipeline {
             }
         }
         
-    stage('Install Dependencies') {
-        steps {
-            dir('FrontEnd') {
-                bat 'npm install'
+        stage('Install Dependencies') {
+            steps {
+                dir('FrontEnd') {
+                    bat 'npm install'
+                }
             }
         }
-    }
-
         
-    stage('Run Tests') {
-        steps {
-            dir('FrontEnd') {
-                bat 'npm run'
+        stage('Run Tests') {
+            steps {
+                dir('FrontEnd') {
+                    bat 'npm run test'
+                }
             }
         }
-    }
-        stage('Build and Deploy') {
+        
+        stage('Build') {
             when {
                 branch 'main'
             }
             steps {
-                bat 'npm run build'
-                bat 'npm run deploy'
+                dir('FrontEnd') {
+                    bat 'npm run build'
+                }
             }
+        }
+        
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                bat './jenkins/scripts/deliver.sh'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo "Pipeline completed."
         }
     }
 }
