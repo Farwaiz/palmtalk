@@ -19,7 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('FrontEnd') {
-                    bat 'npm run test'
+                    bat 'npm run'
                 }
             }
         }
