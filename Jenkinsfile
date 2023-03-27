@@ -5,8 +5,7 @@ pipeline {
             steps {
                 bat 'echo "Building..."'
                 bat 'npm install' // install dependencies
-                bat 'npm build:android' // build the Android APK
-                bat 'npm build:ios'
+          
             }
         }
         stage('Test') {
