@@ -3,23 +3,23 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Building..."'
+                echo "Building..."
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "Testing..."'
+                echo "Testing..."
             }
         }
         stage('Deploy') {
             steps {
-                sh 'echo "Deploying..."'
+                echo "Deploying..."
             }
         }
     }
     post {
         always {
-            sh 'echo "Pipeline completed."'
+            echo "Pipeline completed."
         }
     }
 }
