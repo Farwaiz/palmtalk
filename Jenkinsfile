@@ -8,19 +8,22 @@ pipeline {
             }
         }
         
-        stage('Install Dependencies') {
-            steps {
-                cd 'FrontEnd'
+    stage('Install Dependencies') {
+        steps {
+            dir('FrontEnd') {
                 bat 'npm install'
             }
         }
+    }
+
         
-        stage('Run Tests') {
-            steps {
+    stage('Run Tests') {
+        steps {
+            dir('FrontEnd') {
                 bat 'npm test'
             }
         }
-        
+    }
         stage('Build and Deploy') {
             when {
                 branch 'main'
