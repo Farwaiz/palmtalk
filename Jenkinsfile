@@ -10,6 +10,7 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
+                cd 'FrontEnd'
                 bat 'npm install'
             }
         }
