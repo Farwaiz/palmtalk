@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14'
-            args '-u root'
-        }
-    }
+    agent any
     
     stages {
         stage('Checkout') {
@@ -15,13 +10,13 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
         
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
         }
         
@@ -30,8 +25,8 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'npm run build'
-                sh 'npm run deploy'
+                bat 'npm run build'
+                bat 'npm run deploy'
             }
         }
     }
