@@ -3,9 +3,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'expo install'
-                bat 'expo build:android'
-                bat 'expo build:ios'
+                bat 'npm install'
+                bat 'npm build:android'
+                bat 'npm build:ios'
             }
         }
         stage('Test') {
