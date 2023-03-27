@@ -1,28 +1,38 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:12-alpine'
-      args '-p 3000:3000'
+    agent {
+        docker {
+            image 'node:14'
+            args '-u root'
+        }
     }
-  }
-
-  stages {
-    stage('Install dependencies') {
-      steps {
-        sh 'npm install'
-      }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        
+        stage('Run Tests') {
+            steps {
+                sh 'npm test'
+            }
+        }
+        
+        stage('Build and Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'npm run build'
+                sh 'npm run deploy'
+            }
+        }
     }
-
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'npm test'
-      }
-    }
-  }
 }
