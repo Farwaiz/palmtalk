@@ -3,9 +3,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'echo "Building..."'
-                bat 'npm install' // install dependencies
-          
+                bat 'expo install' // install dependencies
+                bat 'expo build:android' // build the Android APK
+                bat 'expo build:ios
             }
         }
         stage('Test') {
