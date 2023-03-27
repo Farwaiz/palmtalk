@@ -4,27 +4,24 @@ pipeline {
         stage('Build') {
             steps {
                 bat 'npm install'
-                bat 'npm build:android'
-                bat 'npm build:ios'
+                bat 'expo build:android -t apk'
+                archiveArtifacts artifacts: 'android/app/build/outputs/apk/*.apk', onlyIfSuccessful: true
             }
         }
         stage('Test') {
             steps {
-                bat 'echo "Testing..."'
+                bat 'npm run test'
             }
         }
         stage('Deploy') {
             steps {
-                bat 'echo "Deploying..."'
+                bat 'scp -r build/* user@server:/var/www/html'
             }
         }
     }
     post {
         always {
-            echo "Pipeline completed."
+            bat 'echo "Pipeline completed."'
         }
     }
 }
-
-
-
