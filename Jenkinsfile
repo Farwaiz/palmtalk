@@ -1,28 +1,33 @@
 pipeline {
     agent any
+    
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                cd FrontEnd
+                checkout scm
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
                 bat 'npm install'
-                bat 'expo build:android -t apk'
-                archiveArtifacts artifacts: 'android/app/build/outputs/apk/*.apk', onlyIfSuccessful: true
             }
         }
-        stage('Test') {
+        
+        stage('Run Tests') {
             steps {
-                bat 'npm run test'
+                bat 'npm test'
             }
         }
-        stage('Deploy') {
+        
+        stage('Build and Deploy') {
+            when {
+                branch 'main'
+            }
             steps {
-                bat 'scp -r build/* user@server:/var/www/html'
+                bat 'npm run build'
+                bat 'npm run deploy'
             }
-        }
-    }
-    post {
-        always {
-            bat 'echo "Pipeline completed."'
         }
     }
 }
