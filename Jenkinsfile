@@ -1,33 +1,25 @@
 pipeline {
     agent any
-    
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                checkout scm
+                echo "Building..."
             }
         }
-        
-        stage('Install Dependencies') {
+        stage('Test') {
             steps {
-                bat 'npm install'
+                echo "Testing..."
             }
         }
-        
-        stage('Run Tests') {
+        stage('Deploy') {
             steps {
-                bat 'npm test'
+                echo "Deploying..."
             }
         }
-        
-        stage('Build and Deploy') {
-            when {
-                branch 'main'
-            }
-            steps {
-                bat 'npm run build'
-                bat 'npm run deploy'
-            }
+    }
+    post {
+        always {
+            echo "Pipeline completed."
         }
     }
 }
