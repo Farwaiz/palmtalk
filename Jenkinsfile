@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                cd FrontEnd
                 bat 'npm install'
                 bat 'expo build:android -t apk'
                 archiveArtifacts artifacts: 'android/app/build/outputs/apk/*.apk', onlyIfSuccessful: true
