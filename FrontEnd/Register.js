@@ -26,6 +26,11 @@ const CreateUser = () => {
     return emailRegex.test(email);
   };
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const _submitData = async () => {
     fetch("http://10.0.2.2:3000/send-data", {
       method: "POST",
@@ -48,18 +53,23 @@ const CreateUser = () => {
         console.log("error", err);
       });
   };
+
   const handleEmailChange = (value) => {
     setEmail(value);
   };
+
   const handleUsernameChange = (value) => {
     setUserName(value);
   };
+
   const handlePasswordChange = (value) => {
     setPassword(value);
   };
+
   const handleRepasswordChange = (value) => {
     setRepassword(value);
   };
+
   const handleSubmit = () => {
     if (!email) {
       alert("Please enter your email ");
@@ -75,6 +85,12 @@ const CreateUser = () => {
     }
     if (!password) {
       alert("Please enter your Password");
+      return;
+    }
+    if (!validatePassword(password)) {
+      alert(
+        "Please enter a password that is at least 8 characters long and contains at least one letter and one number"
+      );
       return;
     }
     if (!repassword) {

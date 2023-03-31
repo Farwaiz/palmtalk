@@ -10,6 +10,7 @@ import Register from "./Register";
 import Splash from "./Splash";
 import User from "./User";
 import Login from "./Login";
+import UpdatePassword from "./UpdatePassword";
 
 const Stack = createNativeStackNavigator();
 

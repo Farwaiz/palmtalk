@@ -26,8 +26,10 @@ export default function ProfileScreen() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
-
+  });
+  const handleSubmit = () => {
+    navigation.navigate("UpdatePassword");
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -48,10 +50,9 @@ export default function ProfileScreen() {
         <Text style={styles.email}>Email :{email}</Text>
       </View>
       <View style={styles.space} />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSubmit}>
         <View style={styles.buttons}>
           <Text style={styles.buttontext}>CHANGE PASSWORD</Text>
-          onPress={() => navigation.navigate("UpdatePassword")}
         </View>
       </TouchableOpacity>
     </View>
