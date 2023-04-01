@@ -38,7 +38,7 @@ app.post("/send-data", (req, res) => {
   const user = new User({
     email: req.body.email,
     username: req.body.username,
-    repassword: req.body.repassword,
+    password: req.body.password,
   });
   user
     .save()
@@ -68,7 +68,7 @@ app.post("/login", (req, res) => {
     User.find({ email })
       .then((data) => {
         if (data.length) {
-          if (data[0].repassword === password) {
+          if (data[0].password === password) {
             // Store email in session
             req.session.email = email;
             res.json({
