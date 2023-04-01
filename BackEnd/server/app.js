@@ -44,6 +44,8 @@ app.post("/send-data", (req, res) => {
     .save()
     .then((data) => {
       console.log(data);
+      // Store email in session
+      req.session.email = req.body.email;
       res.send("successfully data added");
     })
     .catch((err) => {
