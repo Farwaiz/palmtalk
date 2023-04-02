@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     color: "orange",
     fontWeight: "bold",
     fontSize: 40,
-    marginTop: 170,
+    marginTop: 100,
     marginLeft: 92,
   },
   descArea: {

@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 100,
     marginLeft: 92,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonArea: {
     marginTop: 40,
@@ -97,7 +99,6 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   icon: {
-    marginLeft: 150,
-    marginTop: 50,
+    alignItems: "center",
   },
 });
