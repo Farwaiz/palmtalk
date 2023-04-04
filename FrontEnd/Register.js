@@ -32,7 +32,7 @@ const CreateUser = () => {
   };
 
   const _submitData = async () => {
-    fetch("http://10.0.2.2:3000/send-data", {
+    fetch("https://palmtalk-backend.onrender.com/send-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
