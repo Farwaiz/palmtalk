@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install Dependencies for server
       run: |
-        cd $GITHUB_WORKSPACE/testBackEnd/server
+        cd $GITHUB_WORKSPACE/BackEnd/server
         npm install --package-lock-only
       
     - uses: actions/checkout@v3
@@ -29,7 +29,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: './testBackEnd/server/package-lock.json'
+        cache-dependency-path: './BackEnd/server/package-lock.json'
     - run: |
-        cd $GITHUB_WORKSPACE/testBackEnd/server
+        cd $GITHUB_WORKSPACE/BackEnd/server
         npm run build --if-present
