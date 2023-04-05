@@ -1,9 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native"; // Add import for useIsFocused
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import React, { useEffect } from "react";
-
+import { BackHandler } from "react-native";
 import {
   Alert,
   Button,
@@ -17,6 +17,7 @@ import {
 
 export default function App() {
   const navigation = useNavigation();
+  const isFocused = useIsFocused(); // Add useIsFocused hook
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -82,6 +83,24 @@ export default function App() {
 
     getUserInfo();
   }, []);
+  useEffect(() => {
+    if (isFocused) {
+      const backAction = () => {
+        BackHandler.exitApp(); // Update the route name to match your home route
+        return true;
+      };
+
+      const unsubscribe = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => {
+        unsubscribe.remove();
+      };
+    }
+  }, [isFocused, navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
