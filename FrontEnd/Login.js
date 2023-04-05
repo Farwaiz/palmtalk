@@ -1,6 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
+import React, { useEffect } from "react";
+
 import {
   Alert,
   Button,
@@ -23,7 +26,7 @@ export default function App() {
     return emailRegex.test(email);
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!email.trim() || !password.trim()) {
       alert("Please enter your email and password");
       return;
@@ -34,33 +37,51 @@ export default function App() {
       return;
     }
 
-    fetch("http://10.0.2.2:3000/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "SUCCESS") {
-          navigation.navigate("Menu");
-          setPassword("");
-          setEmail("");
-        } else {
-          alert(data.message);
+    try {
+      const response = await fetch(
+        "https://palmtalk-backend.onrender.com/login",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
         }
-      })
-      .catch((error) => {
-        alert("An error occurred while signing in");
-        console.error(error);
-      });
-  };
+      );
 
+      const data = await response.json();
+
+      if (data.status === "SUCCESS") {
+        await AsyncStorage.setItem("email", email);
+        await AsyncStorage.setItem("password", password);
+        navigation.navigate("Menu");
+        setPassword("");
+        setEmail("");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("An error occurred while signing in");
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const savedEmail = await AsyncStorage.getItem("email");
+      const savedPassword = await AsyncStorage.getItem("password");
+
+      if (savedEmail && savedPassword) {
+        setEmail(savedEmail);
+        setPassword(savedPassword);
+      }
+    };
+
+    getUserInfo();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>

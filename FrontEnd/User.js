@@ -17,7 +17,9 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    fetch("http://10.0.2.2:3000/profile", { credentials: "include" })
+    fetch("https://palmtalk-backend.onrender.com/profile", {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         setName(data.data.username);

@@ -13,18 +13,29 @@ export default function App() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const navigation = useNavigation();
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(newPassword);
+  };
   const handlePasswordChange = () => {
     // Here, you can implement the logic to update the password
     //navigation.goBack();
     console.log(
       `New Password: ${newPassword}, Confirm Password: ${confirmNewPassword}`
     );
+
     if (!oldPassword) {
       alert("Please enter your old Password");
       return;
     }
     if (!newPassword) {
       alert("Please enter your New Password");
+      return;
+    }
+    if (!validatePassword(newPassword)) {
+      alert(
+        "Please enter a password that is at least 8 characters long and contains at least one letter and one number"
+      );
       return;
     }
     if (!confirmNewPassword) {
@@ -45,7 +56,7 @@ export default function App() {
     }
   };
   const _submitData = async () => {
-    fetch("http://10.0.2.2:3000/update-password", {
+    fetch("https://palmtalk-backend.onrender.com/update-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +125,7 @@ export default function App() {
             justifyContent: "flex-end",
           }}
         >
-          <Text style={{ color: "white", fontWeight: "bold" }}>CONFIRM</Text>
+          <Text style={{ color: "white" }}>CONFIRM</Text>
         </View>
         <View
           style={{
