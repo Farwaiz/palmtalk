@@ -21,7 +21,7 @@ export default function App() {
         <Image style={styles.logo} source={require("./assets/palmtalk.png")} />
       </View>
       <View style={styles.btarea}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
           <View style={styles.buttons}>
             <Text style={styles.buttontext}>SIGN LANGUAGE INTO SINHALA</Text>
           </View>

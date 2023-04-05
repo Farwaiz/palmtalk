@@ -11,6 +11,7 @@ import Splash from "./Splash";
 import User from "./User";
 import Login from "./Login";
 import UpdatePassword from "./UpdatePassword";
+import Camera from "./CameraFinalScrn.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,11 @@ export default function Router() {
           options={{ headerShown: false }}
           name="About"
           component={About}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Camera"
+          component={Camera}
         />
         <Stack.Screen
           options={{ headerShown: false }}
